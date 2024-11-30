@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>Weather App</title>
+</head>
+<body>
+    <div class="card">
+        <div class="search">
+            <input type="text" placeholder="Enter name of City" spellcheck="false" class="input">
+            <button><img src="images/search.png" alt="search_btn"></button>
+        </div>
+        <div class="weather">
+            <img src="images/rain.png" class="weatherIcon">
+            <h1 class = "temp">22°c</h1>
+            <h2 class="city">New York</h2>
+            <div class="details">
+                <div class="col">
+                    <img src="images/humidity.png">
+                    <p class="humidity">50%</p>
+                    <p>Humidity</p>
+                </div>
+                <div class="col">
+                    <img src="images/wind.png">
+                    <p class="wind">15 km/h</p>
+                    <p>Wind</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    const apiKey = "e9efb60a85a09ab590525bf92a23d004";
+    const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+    const search = document.querySelector(".input");
+    const button = document.querySelector("button");
+
+    async function checkWeather(city) {
+        const responce = await fetch(apiUrl+city+`&appid=${apiKey}`);
+        var data = await responce.json();
+
+
+
+        document.querySelector(".city").innerHTML=`${data.name}`;
+        document.querySelector(".temp").innerHTML=`${data.main.temp}°c`;
+        document.querySelector(".humidity").innerHTML=`${data.main.humidity}%`;
+        document.querySelector(".wind").innerHTML=`${data.wind.speed}km/h`;
+    }
+
+    button.addEventListener("click", ()=>{
+        checkWeather(search.value);
+    })
+</script>
+</html>
